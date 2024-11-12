@@ -130,3 +130,8 @@ Ensure you have the following installed on your machine:
 ## Testing
 
 You can test the APIs using **Postman** or **Insomnia**. Example Postman collection files are included in the `postman/` directory.
+
+
+## Contact
+
+Email Id - mahesh.busam2206@gmail.com
