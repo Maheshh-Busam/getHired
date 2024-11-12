@@ -26,17 +26,17 @@ This is the backend for the **getHired** Hiring Platform, built using **Java** a
 
 ## Project Overview
 
-The **getHired** backend is designed to streamline the job hiring process by providing employers (HRs) and candidates with a platform to connect and manage job applications. Built with **Spring Boot** and **MySQL**, the backend supports secure authentication, role-based access control, and all essential functionalities needed for a hiring platform.
+The **getHired** backend is designed to streamline the job hiring process by providing HRs and candidates with a platform to connect and manage job applications. Built with **Spring Boot** and **MySQL**, the backend supports secure authentication, role-based access control, and all essential functionalities needed for a hiring platform.
 
 ---
 
 ## Features
 
-- **Job Listings**: Employers can create, update, and manage job postings.
+- **Job Listings**: HRs can create, update, and manage job postings.
 - **Candidate Profiles**: Candidates can create, update, and manage their personal profiles and resumes.
-- **Job Applications**: Candidates can apply for jobs, and employers can review and manage applications.
+- **Job Applications**: Candidates can apply for jobs, and HRs can review and manage applications.
 - **Authentication**: Secure login and registration using **JWT** for authentication.
-- **Role-based Access Control**: Admins, Employers, and Candidates have different permissions:
+- **Role-based Access Control**: Admins, HRs, and Candidates have different permissions:
   - **Admin**: Full access to the system.
   - **Employer**: Can create, update, and delete job listings, and manage job applications.
   - **Candidate**: Can apply for jobs and manage their profile.
@@ -72,7 +72,7 @@ Ensure you have the following installed on your machine:
 1. **Clone the repository**:
    ```bash
    git clone https://github.com/yourusername/gethired-backend.git
-   cd gethired-backend
+   cd gethired
 
 2. **Configure MySQL Database**:
    - Create a new database in MySQL (e.g., `gethired_db`).
@@ -99,33 +99,106 @@ Ensure you have the following installed on your machine:
 
 ---
 
-## API Documentation
+# API Documentation
 
-### Authentication
+## Authentication
 
-- **POST /api/auth/register**: Register a new user (Employer or Candidate).
-- **POST /api/auth/login**: Log in to the system and receive a JWT token.
+- **POST /auth/register-candidate**  
+  Register a new user as a Candidate.
 
-### Job Listings
+- **POST /auth/register-hr**  
+  Register a new user as an HR.
 
-- **GET /api/jobs**: Get all job listings.
-- **POST /api/jobs**: Create a new job listing (Employer only).
-- **PUT /api/jobs/{id}**: Update an existing job listing (Employer only).
-- **DELETE /api/jobs/{id}**: Delete a job listing (Employer only).
-
-### Candidates
-
-- **GET /api/candidates**: Get all candidate profiles.
-- **GET /api/candidates/{id}**: Get details of a specific candidate profile.
-- **PUT /api/candidates/{id}**: Update candidate profile details.
-
-### Job Applications
-
-- **GET /api/applications**: Get all job applications.
-- **POST /api/applications**: Apply for a job (Candidate only).
-- **GET /api/applications/{jobId}**: View all applications for a specific job (Employer only).
+- **POST /auth/login**  
+  Log in to the system and receive a JWT token.
 
 ---
+
+## Admin
+
+- **GET /admin/all-hr**  
+  Retrieve a list of all HR profiles.  
+  **Authorization:** Admin only
+
+- **GET /admin/all-candidates**  
+  Retrieve a list of all candidate profiles.  
+  **Authorization:** Admin only
+
+- **DELETE /admin/delete/{userId}**  
+  Delete a user profile by user ID.  
+  **Authorization:** Admin only
+
+---
+
+## Users
+
+- **GET /users/all**  
+  Retrieve a list of all users.  
+  **Authorization:** Admin only
+
+- **GET /users/{id}**  
+  Retrieve a specific user profile by user ID.  
+  **Authorization:** Candidate or HR only
+
+- **PUT /users/update/{id}**  
+  Update a specific user profile by user ID.  
+  **Authorization:** Candidate or HR only
+
+- **DELETE /users/delete/{id}**  
+  Delete a specific user profile by user ID.  
+  **Authorization:** Candidate or HR only
+
+---
+
+## Job Listings
+
+- **POST /jobPost/add**  
+  Create a new job listing.  
+  **Authorization:** HR only
+
+- **GET /jobPost/all**  
+  Retrieve a list of all job postings.  
+  **Authorization:** Candidate or HR
+
+- **GET /jobPost/{id}**  
+  Retrieve details of a specific job posting by job ID.  
+  **Authorization:** Candidate or HR
+
+- **PUT /jobPost/update**  
+  Update an existing job listing.  
+  **Authorization:** HR only
+
+- **DELETE /jobPost/delete/{id}**  
+  Delete a job listing by job ID.  
+  **Authorization:** HR only
+
+---
+
+## Job Applications
+
+- **POST /jobApplication/apply**  
+  Apply for a job.  
+  **Authorization:** Candidate only
+
+- **GET /jobApplication/all/{jobId}**  
+  Retrieve all job applications for a specific job by job ID.  
+  **Authorization:** HR who posted the job only
+
+- **GET /jobApplication/{id}**  
+  Retrieve a specific job application by application ID.  
+  **Authorization:** HR who posted the job or Candidate who applied only
+
+- **GET /jobApplication/my-job-applications/{candidateId}**  
+  Retrieve a list of jobs applied to by a specific candidate.  
+  **Authorization:** Candidate only
+
+- **PUT /jobApplication/update-status/{id}**  
+  Update the status of a job application.  
+  **Authorization:** HR only
+
+- **DELETE /jobApplication/{id}**  
+  Withdraw a job application by application ID.  
+  **Authorization:** Candidate only
 
 ## Testing
 
