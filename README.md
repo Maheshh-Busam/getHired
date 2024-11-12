@@ -65,7 +65,6 @@ Ensure you have the following installed on your machine:
 - **Java 17** or later
 - **Maven 3.8+**
 - **MySQL 8.0+**
-- (Optional) **Docker** for containerization
 
 ### Steps to Run Locally
 
@@ -76,11 +75,13 @@ Ensure you have the following installed on your machine:
 
 2. **Configure MySQL Database**:
    - Create a new database in MySQL (e.g., `gethired_db`).
-   - Update the `application.properties` file with your database credentials:
+   - Update the `application.yml` file with your database credentials:
      ```properties
-     spring.datasource.url=jdbc:mysql://localhost:3306/gethired_db
-     spring.datasource.username=root
-     spring.datasource.password=yourpassword
+     spring:
+      datasource:
+        url: jdbc:mysql://localhost:3306/gethired_db
+        username: root
+        password: yourpassword
      ```
 
 3. **Build the project**:
